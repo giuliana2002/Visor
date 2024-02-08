@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="visor" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e15d519-eab3-497d-b483-a5c1caac3ee0">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bdvisorr"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Style1" mode="Opaque" backcolor="#CD5C5C">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 1]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F08080"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Data1000" uuid="e5e196f2-385c-4491-b1e7-13d69db8f29d">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bdvisorr"/>
+		<queryString>
+			<![CDATA[SELECT (SELECT count(*) FROM cuenta WHERE saldo > 1000) as "MasMil",
+(SELECT count(*) FROM cuenta WHERE saldo <=1000) as "MenosMil"]]>
+		</queryString>
+		<field name="MasMil" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="MasMil"/>
+			<property name="com.jaspersoft.studio.field.label" value="MasMil"/>
+		</field>
+		<field name="MenosMil" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="MenosMil"/>
+			<property name="com.jaspersoft.studio.field.label" value="MenosMil"/>
+		</field>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[SELECT *
+FROM cuenta
+ORDER BY nacionalidad, fechaApertura ASC]]>
+	</queryString>
+	<field name="numCuenta" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="numCuenta"/>
+		<property name="com.jaspersoft.studio.field.label" value="numCuenta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta"/>
+	</field>
+	<field name="titular" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="titular"/>
+		<property name="com.jaspersoft.studio.field.label" value="titular"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta"/>
+	</field>
+	<field name="nacionalidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nacionalidad"/>
+		<property name="com.jaspersoft.studio.field.label" value="nacionalidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta"/>
+	</field>
+	<field name="fechaApertura" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fechaApertura"/>
+		<property name="com.jaspersoft.studio.field.label" value="fechaApertura"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta"/>
+	</field>
+	<field name="saldo" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="saldo"/>
+		<property name="com.jaspersoft.studio.field.label" value="saldo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cuenta"/>
+	</field>
+	<variable name="TotalNacionalidad" class="java.lang.Double" resetType="Group" resetGroup="nacionalidad" incrementType="Group" incrementGroup="saldo" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo}.doubleValue()]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="TotalBanco" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo}.doubleValue()]]></variableExpression>
+	</variable>
+	<variable name="MediaNacionalidad" class="java.lang.Double" resetType="Group" resetGroup="nacionalidad" incrementType="Group" incrementGroup="saldo" calculation="Average">
+		<variableExpression><![CDATA[$F{saldo}.doubleValue()]]></variableExpression>
+	</variable>
+	<variable name="MediaBanco" class="java.lang.Double" calculation="Average">
+		<variableExpression><![CDATA[$F{saldo}.doubleValue()]]></variableExpression>
+	</variable>
+	<group name="nacionalidad">
+		<groupExpression><![CDATA[$F{nacionalidad}]]></groupExpression>
+		<groupHeader>
+			<band height="80">
+				<staticText>
+					<reportElement mode="Opaque" x="20" y="50" width="130" height="30" backcolor="#368F4E" uuid="b07d049a-0e12-4b03-8056-954124b472e5">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e8aad9a8-2c93-4aaa-888a-adc536d42008"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Número de cuenta]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="45" y="0" width="150" height="30" uuid="c40e338e-551d-4556-8430-defa6f853508">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nacionalidad}]]></textFieldExpression>
+				</textField>
+				<ellipse>
+					<reportElement mode="Opaque" x="20" y="5" width="20" height="20" backcolor="#0AFF4B" uuid="0f3f1ae7-8933-42c7-8810-caea2b2ce5b7">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</ellipse>
+				<line>
+					<reportElement x="20" y="30" width="520" height="1" uuid="bd5004c1-d8df-459f-9379-9c0edfa7cfec">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="2.0" lineColor="#050505"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement mode="Opaque" x="150" y="50" width="130" height="30" backcolor="#368F4E" uuid="d8497da4-a6f4-47c3-823a-06584b15f8d7">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e8aad9a8-2c93-4aaa-888a-adc536d42008"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Titular de la cuenta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="280" y="50" width="130" height="30" backcolor="#368F4E" uuid="5d047f19-aabd-4111-b204-2ec50cd6c6b4">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e8aad9a8-2c93-4aaa-888a-adc536d42008"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Saldo de la cuenta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="410" y="50" width="130" height="30" backcolor="#368F4E" uuid="c1e04ef1-60aa-4440-8287-e5ba77206967">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e8aad9a8-2c93-4aaa-888a-adc536d42008"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Número de cuenta]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<textField>
+					<reportElement x="150" y="10" width="130" height="30" uuid="d15bef6f-73d6-4059-acc9-2f9e1fc0e22b">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total de las cuentas:\n"+$V{TotalNacionalidad}+"€"]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="410" y="10" width="130" height="30" uuid="dbdda510-7c48-43a2-977d-afd753315584">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Media de las cuentas:\n"+String.format("%.2f", $V{MediaNacionalidad})+"€"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="fechaApertura">
+		<groupExpression><![CDATA[$F{fechaApertura}]]></groupExpression>
+	</group>
+	<group name="saldo">
+		<groupExpression><![CDATA[$F{saldo}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="210" height="47" uuid="91f5fe7f-a65f-46a3-81ae-30f2d82c45a2"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Reporte visor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="110" y="60" width="230" height="33" uuid="6931f6fc-c9e8-4cc3-9eec-607a123c87f7"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Giuliana Castillo]]></text>
+			</staticText>
+			<image>
+				<reportElement x="433" y="13" width="103" height="80" uuid="1122f75e-c696-4a6b-a71d-d39497a3f3c5"/>
+				<imageExpression><![CDATA["https://cdn-icons-png.flaticon.com/512/3635/3635995.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement style="Style1" x="150" y="0" width="130" height="30" backcolor="#46E86C" uuid="45f9d4cc-1fed-4465-a6be-f76484856362">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{titular}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="280" y="0" width="130" height="30" backcolor="#46E86C" uuid="35ef2c6a-342e-4044-9b42-5f3a7bb4dc5e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{saldo}+"€"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="410" y="0" width="130" height="30" backcolor="#46E86C" uuid="9910917c-b6e8-4b2a-9a09-968e4a3f9e5e">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fechaApertura})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Style1" x="20" y="0" width="130" height="30" backcolor="#46E86C" uuid="ff3c5ff9-1623-40c6-917b-2e6dab9cece3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numCuenta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="c9e9a989-76ae-4c92-a08c-dba3c3185f04"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="736cac2d-8f9a-48bb-b4e7-09302ce0e313"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="20" y="0" width="197" height="20" uuid="c49bc611-71b3-4860-8112-76288860b48d"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="345">
+			<line>
+				<reportElement x="20" y="30" width="520" height="1" uuid="1d2f9ac8-2ae2-4138-8e13-7077d130a857">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#050505"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="45" y="0" width="150" height="30" uuid="75214c83-38fe-4e22-b8ea-f6410e8c599b">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Resumen"]]></textFieldExpression>
+			</textField>
+			<ellipse>
+				<reportElement mode="Opaque" x="20" y="5" width="20" height="20" backcolor="#0AFF4B" uuid="c17042c7-732a-4d8b-a300-329e42f421c6">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</ellipse>
+			<textField>
+				<reportElement mode="Transparent" x="381" y="100" width="164" height="79" backcolor="#F25A55" uuid="4e6b64c9-c3a8-44e1-a33f-b38e2f7a6753">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Double"/>
+					<topPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Total de las cuentas:\n"+String.format("%.2f", $V{TotalBanco})+"€"]]></textFieldExpression>
+			</textField>
+			<pie3DChart>
+				<chart evaluationTime="Report">
+					<reportElement x="20" y="90" width="320" height="200" uuid="7e582e4c-40d0-4bcb-aa3e-d2525c60bd3b"/>
+					<box>
+						<pen lineWidth="0.5" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="Data1000" uuid="9bac8030-a41c-4980-b98c-3ee539e9a4e6"/>
+					</dataset>
+					<pieSeries>
+						<keyExpression><![CDATA[$F{MasMil}]]></keyExpression>
+						<valueExpression><![CDATA[$F{MasMil}]]></valueExpression>
+						<labelExpression><![CDATA["+1000"]]></labelExpression>
+					</pieSeries>
+					<pieSeries>
+						<keyExpression><![CDATA[$F{MenosMil}]]></keyExpression>
+						<valueExpression><![CDATA[$F{MenosMil}]]></valueExpression>
+						<labelExpression><![CDATA["-1000"]]></labelExpression>
+					</pieSeries>
+				</pieDataset>
+				<pie3DPlot>
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+			<staticText>
+				<reportElement x="20" y="40" width="493" height="50" uuid="46baee80-521e-4e00-9315-77c4bf1fb6bd"/>
+				<box>
+					<pen lineStyle="Double"/>
+					<topPen lineWidth="0.5" lineStyle="Double" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Double" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Double" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Double" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Porcentage de cuentas con saldo superior a 1000€]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="380" y="200" width="164" height="79" backcolor="#F25A55" uuid="02fc6601-1040-43cc-841d-985668f6884e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Double"/>
+					<topPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Media de las cuentas:\n"+String.format("%.2f", $V{MediaBanco})+"€"]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="22" y="325" width="197" height="20" uuid="218f62e6-1c3f-4373-83cd-1bfcbc6fe128"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="435" y="325" width="80" height="20" uuid="e99fa190-8831-4d6e-b60b-65c874d6b544"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="515" y="325" width="40" height="20" uuid="4ad8f766-6587-449d-a5e7-81699989e246"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

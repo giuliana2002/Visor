@@ -1,0 +1,4 @@
+--patch-module
+safa.ddi_visor=_
+--add-reads
+safa.ddi_visor=ALL-UNNAMED
